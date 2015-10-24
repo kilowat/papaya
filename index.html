@@ -16,19 +16,16 @@
 <body>
 	<main class="content">
 		<!--start component top-block-on-main-page-->
-		<div class="main-page-top-block">
 			<canvas id="canvas">
 			</canvas>
-		</div>
+			<canvas id="textCanvas">
+			</canvas>
 		<script>														
-	var papaya = new Papaya('canvas');
-			papaya.canvasSetSize();
-			window.onresize = function(){
-				papaya.canvasSetSize();
-			}
-			//papaya.sceenObjectAdd({name:'bg-sceen',src:'/images/bg-sceen.jpg',width:innerWidth,height:1200,posX:0,posY:0});
-			//papaya.imageDraw("bg-sceen");
-
+	var papaya = new Papaya('canvas','textCanvas',2048,1200);
+	
+			
+			
+		papaya.run();
 		
 </script>
 		<!--end component top-block-on-main-page-->
