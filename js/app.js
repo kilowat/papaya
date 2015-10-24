@@ -61,6 +61,10 @@ Papaya.prototype.sceenObjectAdd = function(obj){
 	}
 	this.sceenObject[obj.name] = obj;
 };
+Papaya.prototype.menuAdd = function(name,x,y,text){
+    this.contextText.font = 'bold '+14*this.k+'pt Calibri';
+		this.contextText.fillText(text, this.sceenObject[name].posX+x*this.k, this.sceenObject[name].posY+y*this.k);
+}
 Papaya.prototype.run = function(){
 
 		papaya.sceenObjectAdd({
@@ -76,14 +80,22 @@ Papaya.prototype.run = function(){
 													height:391,
 													posX:400,
 													posY:400,
-													type:'menu',
 													});
+		papaya.sceenObjectAdd({
+													name:'bar-and-cuhnya',
+													src:'/images/bar-and-cuhnya.png',
+													width:147,
+													height:399,
+													posX:360,
+													posY:540,
+													});		
+													
 		papaya.canvasSetSize();
-
-    this.contextText.font = 'bold '+14*this.k+'pt Calibri';
-		this.contextText.fillText('О НАС', this.sceenObject["totem-about"].posX+65*this.k, this.sceenObject["totem-about"].posY+210*this.k);
+		this.menuAdd("totem-about",62,208,"О БАРЕ");
+		this.menuAdd("bar-and-cuhnya",240,0,"БАР И");
+		this.menuAdd("bar-and-cuhnya",240,20,"КУХНЯ");
 		papaya.imageDraw("totem-about");
-		
+		papaya.imageDraw("bar-and-cuhnya");
 		papaya.imageDraw("bg-sceen");
 };
 
