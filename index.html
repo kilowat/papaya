@@ -7,25 +7,31 @@
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />
 	<link href="/css/style.css" rel="stylesheet">
-	<link href="/js/jquery-2.1.4.min.js" rel="stylesheet">
-	<link href="/js/app.js" rel="stylesheet">
+	<link href="/css/style.css" rel="stylesheet">
+	<link href="/cmp/top-block-on-main-page/css/style.css" rel="stylesheet">
+	<script src="/js/jquery-2.1.4.min.js"></script>
+	<script src="/js/app.js"></script>
 </head>
 
 <body>
-
-<div class="wrapper">
-
-	<header class="header">
-	</header>
-
 	<main class="content">
-	
+		<!--start component top-block-on-main-page-->
+		<div class="main-page-top-block">
+			<canvas id="canvas">
+			</canvas>
+		</div>
+		<script>														
+	var papaya = new Papaya('canvas');
+			papaya.canvasSetSize();
+			window.onresize = function(){
+				papaya.canvasSetSize();
+			}
+			//papaya.sceenObjectAdd({name:'bg-sceen',src:'/images/bg-sceen.jpg',width:innerWidth,height:1200,posX:0,posY:0});
+			//papaya.imageDraw("bg-sceen");
+
+		
+</script>
+		<!--end component top-block-on-main-page-->
 	</main>
-
-	<footer class="footer">
-	</footer>
-
-</div>
-
 </body>
 </html>

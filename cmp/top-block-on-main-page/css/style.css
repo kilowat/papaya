@@ -1,0 +1,11 @@
+/*component-top-block-on-main-page*/
+.main-page-top-block{
+	width:100%;
+	height:100%;
+	background-color: rgba(0, 0, 0, 0);
+	background-image: url("/cmp/top-block-on-main-page/images/bg-sceen.jpg");
+	background-origin: padding-box;
+	background-position: center top, center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}

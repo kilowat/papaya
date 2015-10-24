@@ -47,6 +47,25 @@ table {
 article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
 	display: block;
 }
+
+.b-page_initial-scroll_yes.b-page_js_inited {
+    overflow-y: auto;
+}
+body.b-page__body {
+    font-size: 13px;
+    line-height: 1.154;
+}
+body.b-page__body {
+    height: 100%;
+    padding: 0;
+}
+.b-page_initial-scroll_yes {
+    overflow-y: scroll;
+}
+canvas {
+    margin: 0 auto;
+    width: 100%;
+}
 body {
 	font: 12px/18px Arial, sans-serif;
 	width: 100%;
@@ -61,7 +80,6 @@ body {
 -----------------------------------------------------------------------------*/
 .header {
 	height: 150px;
-	background: #FFE680;
 }
 
 
@@ -77,5 +95,5 @@ body {
 -----------------------------------------------------------------------------*/
 .footer {
 	height: 100px;
-	background: #BFF08E;
+
 }
