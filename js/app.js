@@ -1,8 +1,6 @@
 function Papaya(canvas,textCanvas,width,height){
 	this.canvas = document.getElementById(canvas);
 	this.context = this.canvas.getContext('2d');
-
-
 	this.sceenObject = {};
 	this.sceenWidth = width;
 	this.sceenHeight = height;
@@ -17,7 +15,7 @@ function Papaya(canvas,textCanvas,width,height){
 	window.requestAnimFrame = (function(callback) {
     return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
 		function(callback) {
-			window.setTimeout(callback, 1000 / 4);
+			window.setTimeout(callback, 1000 / 60);
     };
    })();
 };
@@ -85,7 +83,6 @@ Papaya.prototype.menuAdd = function(name,x,y,text){
 }
 Papaya.prototype.menuEvent = function(event,callback){
 	var self = this;
-	var rect = self.canvas.getBoundingClientRect();
 	var x = event.clientX;
 	var y = event.clientY;
 	var objX;
@@ -109,7 +106,7 @@ Papaya.prototype.menuEvent = function(event,callback){
 };
 Papaya.prototype.boatAnim = function (){
 	var self = this;
-	self.sceenObject['boat'].posX-=0.5;
+	self.sceenObject['boat'].posX-=0.5*self.k;
 		if(self.sceenObject['boat'].posX<0)
 			self.sceenObject['boat'].posX = self.canvas.width;
 	
@@ -124,11 +121,28 @@ var self = this;
 Papaya.prototype.animation = function(startTime){
 	var self = this;
 	var time = (new Date()).getTime() - startTime;
-	this.context.clearRect(self.sceenObject['boat'].posX , self.sceenObject['boat'].posY, self.sceenObject['boat'].width, self.sceenObject['boat'].height);
-	
-	self.imageDraw('bg-sceen');
-	this.imageDraw('boat');
+	this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	this.boatAnim();
+	this.imageDraw('bg-sceen');
+	this.imageDraw('boat');
+	this.imageDraw('bungalo');
+	this.imageDraw('forest');
+	this.imageDraw('logo');
+	this.imageDraw('girl');
+	this.imageDraw('tablichka');
+	this.imageDraw('palmy-right');
+	this.imageDraw('totem-about');
+	this.imageDraw('totem-bar-and-cuhnya');
+	this.imageDraw('totem-galery');
+	this.imageDraw('totem-events');
+	this.imageDraw('totem-reviews');
+	this.imageDraw('totem-menu');
+	this.menuAdd("totem-about",62,208,"О БАРЕ");
+	this.menuAdd("totem-bar-and-cuhnya",62,180,"БАР И");
+	this.menuAdd("totem-bar-and-cuhnya",58,200,"КУХНЯ");
+	this.menuAdd("totem-events",43,163,"МЕРО-");
+	this.menuAdd("totem-events",30,180,"ПРИЯТИЯ");
+	this.menuAdd("totem-galery",30,190,"ГАЛЕРЕЯ");	
 
 	requestAnimFrame(function() {
           self.animation(startTime);
@@ -155,7 +169,7 @@ Papaya.prototype.run = function(){
 													width:157,
 													height:391,
 													posY:400,
-													posX:400,
+													posX:380,
 													weight:1,
 													});
 		self.sceenObjectAdd({
@@ -165,7 +179,7 @@ Papaya.prototype.run = function(){
 													width:147,
 													height:399,
 													posY:360,
-													posX:540,
+													posX:520,
 													weight:1,
 													});
 		self.sceenObjectAdd({
@@ -175,7 +189,7 @@ Papaya.prototype.run = function(){
 													width:147,
 													height:399,
 													posY:350,
-													posX:680,
+													posX:660,
 													weight:1,
 													});													
 		self.sceenObjectAdd({
@@ -185,16 +199,89 @@ Papaya.prototype.run = function(){
 													width:118,
 													height:306,
 													posY:340,
-													posX:780,
+													posX:760,
+													weight:1,
+													});
+		self.sceenObjectAdd({
+													name:'totem-reviews',
+													url:'/#5',
+													src:'/images/totem-reviews.png',
+													width:151,
+													height:404,
+													posY:330,
+													posX:1382,
+													weight:1,
+													});		
+		self.sceenObjectAdd({
+													name:'totem-menu',
+													url:'/#6',
+													src:'/images/totem-menu.png',
+													width:143,
+													height:431,
+													posY:348,
+													posX:1511,
+													weight:1,
+													});													
+		self.sceenObjectAdd({
+													name:'forest',
+													src:'/images/forest.png',
+													width:2048,
+													height:460,
+													posY:750,
+													posX:0,
 													weight:1,
 													});	
-
+		self.sceenObjectAdd({
+													name:'bungalo',
+													src:'/images/bungalo.png',
+													width:513,
+													height:964,
+													posY:0,
+													posX:0,
+													weight:1,
+													});	
+		self.sceenObjectAdd({
+													name:'logo',
+													src:'/images/logo.png',
+													width:462,
+													height:461,
+													posY:240,
+													posX:890,
+													weight:1,
+													});
+		self.sceenObjectAdd({
+													name:'tablichka',
+													src:'/images/tablichka.png',
+													width:320,
+													height:444,
+													posY:660,
+													posX:720,
+													weight:1,
+													});														
+		self.sceenObjectAdd({
+													name:'girl',
+													src:'/images/girl.png',
+													width:583,
+													height:658,
+													posY:520,
+													posX:1350,
+													weight:1,
+													});	
+		self.sceenObjectAdd({
+													name:'palmy-right',
+													src:'/images/palmy-right.png',
+													width:545,
+													height:702,
+													posY:0,
+													posX:1510,
+													weight:1,
+													});	
 		self.sceenObjectAdd({
 													name:'boat',
 													src:'/images/boat.png',
 													width:90,
 													height:83,
-													posY:200,
+													posY:150,
 													posX:680,
 													weight:1,
 													});														
@@ -225,20 +312,6 @@ Papaya.prototype.run = function(){
 	//self.imageDraw('bg-sceen');
 	self.loadImages(function(){
 		self.animation((new Date()).getTime()); 
-
-			//this.imageDraw('boat');
-			self.imageDraw('totem-about');
-			self.imageDraw('totem-bar-and-cuhnya');
-			self.imageDraw('totem-galery');
-			self.imageDraw('totem-events');
-			
-			self.menuAdd("totem-about",62,208,"О БАРЕ");
-			self.menuAdd("totem-bar-and-cuhnya",62,180,"БАР И");
-			self.menuAdd("totem-bar-and-cuhnya",58,200,"КУХНЯ");
-			self.menuAdd("totem-events",43,163,"МЕРО-");
-			self.menuAdd("totem-events",30,180,"ПРИЯТИЯ");
-			self.menuAdd("totem-galery",30,190,"ГАЛЕРЕЯ");	
-		
 	 });
 	
 	
