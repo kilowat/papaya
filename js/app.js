@@ -1,19 +1,29 @@
 function Papaya(canvas,textCanvas,width,height){
 	this.canvas = document.getElementById(canvas);
 	this.context = this.canvas.getContext('2d');
-	this.canvasText = document.getElementById(textCanvas);
-	this.contextText = this.canvasText.getContext('2d');
+
+
 	this.sceenObject = {};
 	this.sceenWidth = width;
 	this.sceenHeight = height;
 	this.k = innerWidth/width;
 	this.menuArr = [];
+	
+	this.source;
+	this.arrObjName = [];
+  this.images = {};
+  this.loadedImages = 0;
+  this.numImages = 0;
+	window.requestAnimFrame = (function(callback) {
+    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+		function(callback) {
+			window.setTimeout(callback, 1000 / 4);
+    };
+   })();
 };
 Papaya.prototype.canvasSetSize = function(){
-		this.canvas.width = window.innerWidth;
-		this.canvas.height = window.innerHeight-5;
-		this.canvasText.width = window.innerWidth;
-		this.canvasText.height = window.innerHeight-5;
+		this.canvas.width = this.sceenWidth*this.k;
+		this.canvas.height = this.sceenHeight*this.k;
 };
 Papaya.prototype.sorting = function(){
 	var self = this;
@@ -28,38 +38,28 @@ Papaya.prototype.sorting = function(){
 	return sorted;
 }
 Papaya.prototype.loadImages = function(callback) {
-	var source;
-	var arrObjName = [];
-  var images = {};
-  var loadedImages = 0;
-  var numImages = 0;
-	
+	var self = this;
 	for(var objName in this.sceenObject){
-		arrObjName.push(objName);
+		self.arrObjName.push(objName);
 	}
    for(var name in this.sceenObject) {
-    images[name] = new Image();
-    images[name].onload = function() {
-      if(++loadedImages >= arrObjName.length) {
-        callback(images);
+    self.images[name] = new Image();
+    self.images[name].onload = function() {
+      if(++self.loadedImages >= self.arrObjName.length) {
+        callback();
 			}
 		};
-		images[name].src = this.sceenObject[name].src;
+		self.images[name].src = self.sceenObject[name].src;
 	}
 };
 Papaya.prototype.imageDraw = function(name){
-	var self = this;
-	var imageObj = new Image();
-      imageObj.onload = function() {
-        		self.context.drawImage(
-									imageObj, 
-									self.sceenObject[name].posX, 
-									self.sceenObject[name].posY, 
-									self.sceenObject[name].width, 
-									self.sceenObject[name].height);
-      };
-    imageObj.src = self.sceenObject[name].src;
-
+		this.context.drawImage(
+									this.images[name], 
+									this.sceenObject[name].posX, 
+									this.sceenObject[name].posY, 
+									this.sceenObject[name].width, 
+									this.sceenObject[name].height);
+   
 }
 
 Papaya.prototype.sceenObjectGet = function(){
@@ -79,39 +79,74 @@ Papaya.prototype.sceenObjectAdd = function(obj){
 	
 };
 Papaya.prototype.menuAdd = function(name,x,y,text){
-    this.contextText.font = 'bold '+14*this.k+'pt Calibri';
-		this.contextText.fillText(text, this.sceenObject[name].posX+x*this.k, this.sceenObject[name].posY+y*this.k);
+    this.context.font = 'bold '+14*this.k+'pt Calibri';
+		this.context.fillText(text, this.sceenObject[name].posX+x*this.k, this.sceenObject[name].posY+y*this.k);
 		this.menuArr.push(name);
 }
 Papaya.prototype.menuEvent = function(event,callback){
 	var self = this;
-	var rect = self.canvasText.getBoundingClientRect();
+	var rect = self.canvas.getBoundingClientRect();
 	var x = event.clientX;
 	var y = event.clientY;
 	var objX;
 	var objY;
 	var objYend;
 	var objXend;
+	document.body.style.cursor = '';
 	for(var i = 0; self.menuArr.length>i;i++){
 		var objX = self.sceenObject[self.menuArr[i]].posX+10;
-		var objY = self.sceenObject[self.menuArr[i]].posY+10;
-		var objYend = objY + self.sceenObject[self.menuArr[i]].height-70;
+		var objY = self.sceenObject[self.menuArr[i]].posY;
+		var objYend = objY + self.sceenObject[self.menuArr[i]].height-120;
 		var objXend = objX + self.sceenObject[self.menuArr[i]].width-40;
-			if((x>=objX && x<=objXend) && (y>=objY && y<=objYend))
+			
+			if((x>=objX && x<=objXend) && (y>=objY && y<=objYend)){
 				callback(self.sceenObject[self.menuArr[i]]);
+				document.body.style.cursor = 'pointer';
+			}
 	}
 	
 				
 };
+Papaya.prototype.boatAnim = function (){
+	var self = this;
+	self.sceenObject['boat'].posX-=0.5;
+		if(self.sceenObject['boat'].posX<0)
+			self.sceenObject['boat'].posX = self.canvas.width;
+	
+
+}
+Papaya.prototype.menuAnim = function(name){
+var self = this;
+	self.sceenObject[name].posX-=0.5;
+		if(self.sceenObject[name].posX<0)
+			self.sceenObject[name].posX = self.canvas.width;
+}
+Papaya.prototype.animation = function(startTime){
+	var self = this;
+	var time = (new Date()).getTime() - startTime;
+	this.context.clearRect(self.sceenObject['boat'].posX , self.sceenObject['boat'].posY, self.sceenObject['boat'].width, self.sceenObject['boat'].height);
+	
+	self.imageDraw('bg-sceen');
+	this.imageDraw('boat');
+	this.boatAnim();
+
+	requestAnimFrame(function() {
+          self.animation(startTime);
+        });
+}
 Papaya.prototype.run = function(){
 		var self = this;
 		this.canvasSetSize();
-		self.canvasText.onclick=function(event){
+		self.canvas.onclick=function(event){
 			self.menuEvent(event,function(element){
-				console.log(element);
 				window.location.href=element.url;
 			});
-		}
+		};
+		
+		self.canvas.onmousemove = function(event){
+			self.menuEvent(event,function(element){
+			});
+		};
 		
 		self.sceenObjectAdd({
 													name:'totem-about',
@@ -142,6 +177,26 @@ Papaya.prototype.run = function(){
 													posY:350,
 													posX:680,
 													weight:1,
+													});													
+		self.sceenObjectAdd({
+													name:'totem-galery',
+													url:'/#4',
+													src:'/images/totem-galery.png',
+													width:118,
+													height:306,
+													posY:340,
+													posX:780,
+													weight:1,
+													});	
+
+		self.sceenObjectAdd({
+													name:'boat',
+													src:'/images/boat.png',
+													width:90,
+													height:83,
+													posY:200,
+													posX:680,
+													weight:1,
 													});														
 													
 		self.sceenObjectAdd({
@@ -153,17 +208,39 @@ Papaya.prototype.run = function(){
 													posX:0,
 													posY:0});
 		
-		papaya.imageDraw('bg-sceen');
-		papaya.imageDraw('totem-about');
-		papaya.imageDraw('totem-bar-and-cuhnya');
-		papaya.imageDraw('totem-events');
+
+		
+		
 
 
 		
-	this.menuAdd("totem-about",62,208,"О БАРЕ");
-	this.menuAdd("totem-bar-and-cuhnya",62,180,"БАР И");
-	this.menuAdd("totem-bar-and-cuhnya",58,200,"КУХНЯ");
-	this.menuAdd("totem-events",43,163,"МЕРО-");
-	this.menuAdd("totem-events",30,180,"ПРИЯТИЯ");
+
+	
+//***********************************************************//
+  //this.imageDraw('boat');
+	//self.imageDraw('totem-about');
+	//self.imageDraw('totem-bar-and-cuhnya');
+	//self.imageDraw('totem-events');
+	//self.imageDraw('totem-galery');
+	//self.imageDraw('bg-sceen');
+	self.loadImages(function(){
+		self.animation((new Date()).getTime()); 
+
+			//this.imageDraw('boat');
+			self.imageDraw('totem-about');
+			self.imageDraw('totem-bar-and-cuhnya');
+			self.imageDraw('totem-galery');
+			self.imageDraw('totem-events');
+			
+			self.menuAdd("totem-about",62,208,"О БАРЕ");
+			self.menuAdd("totem-bar-and-cuhnya",62,180,"БАР И");
+			self.menuAdd("totem-bar-and-cuhnya",58,200,"КУХНЯ");
+			self.menuAdd("totem-events",43,163,"МЕРО-");
+			self.menuAdd("totem-events",30,180,"ПРИЯТИЯ");
+			self.menuAdd("totem-galery",30,190,"ГАЛЕРЕЯ");	
+		
+	 });
+	
+	
 };
 
