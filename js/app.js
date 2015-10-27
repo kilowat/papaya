@@ -16,10 +16,12 @@ function Papaya(canvas,textCanvas,width,height){
 	window.requestAnimFrame = (function(callback) {
     return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
 		function(callback) {
-			window.setTimeout(callback, 1000 / 60);
+			window.setTimeout(callback, 1000 / 20);
     };
    })();
 };
+Papaya.textMenuColorDefault = "black";
+Papaya.textMenuColorHover = "red";
 Papaya.prototype.canvasSetSize = function(){
 		this.canvas.width = this.sceenWidth*this.k;
 		this.canvas.height = this.sceenHeight*this.k;
@@ -42,23 +44,44 @@ Papaya.prototype.loadImages = function(callback) {
 		self.arrObjName.push(objName);
 	}
    for(var name in this.sceenObject) {
+		if(self.sceenObject[name].src==undefined)
+			continue;
     self.images[name] = new Image();
     self.images[name].onload = function() {
       if(++self.loadedImages >= self.arrObjName.length) {
         callback();
 			}
 		};
+
 		self.images[name].src = self.sceenObject[name].src;
 	}
+
 };
 Papaya.prototype.imageDraw = function(name){
+	this.context.save();
+	if(this.sceenObject[name].sku!==undefined){
+		this.context.transform(this.sceenObject[name].sku.m11, 
+													this.sceenObject[name].sku.m12, 
+													this.sceenObject[name].sku.m21, 
+													this.sceenObject[name].sku.m22, 
+													this.sceenObject[name].sku.dx, 
+													this.sceenObject[name].sku.dy);
+	}
 		this.context.drawImage(
 									this.images[name], 
 									this.sceenObject[name].posX, 
 									this.sceenObject[name].posY, 
 									this.sceenObject[name].width, 
 									this.sceenObject[name].height);
-   
+		if(this.sceenObject[name].text!==undefined){
+			this.context.font = this.sceenObject[name].text.type+' '+this.sceenObject[name].text.size*this.k+'pt Calibri';
+			this.context.fillStyle = this.sceenObject[name].text.color;
+			this.context.fillText(this.sceenObject[name].text.value, 
+													this.sceenObject[name].posX+this.sceenObject[name].text.x*this.k, 
+													this.sceenObject[name].posY+this.sceenObject[name].text.y*this.k
+													);
+		}
+   this.context.restore();
 }
 
 Papaya.prototype.sceenObjectGet = function(){
@@ -69,37 +92,44 @@ Papaya.prototype.sceenObjectAdd = function(obj){
 
 		obj.width *= this.k;
 		obj.height *= this.k;
-
 		obj.posX *= this.k;
 		obj.posY *= this.k;
-
 	this.sceenObject[obj.name] = obj;
+	if(obj.url!==undefined)
+		this.menuArr.push(obj.name);
 	
 	
 };
-Papaya.prototype.menuAdd = function(name,x,y,text){
-    this.context.font = 'bold '+14*this.k+'pt Calibri';
-		this.context.fillText(text, this.sceenObject[name].posX+x*this.k, this.sceenObject[name].posY+y*this.k);
-		this.menuArr.push(name);
+Papaya.prototype.tablichkaTextDraw = function(x,y,text,size,type){
+
+	this.context.save();
+	this.context.transform(1,-0.015,0,1,0,0);
+	//this.context.rotate(Math.PI/900);
+  this.context.font = type+' '+Math.floor(size*this.k)+'pt Calibri';
+	this.context.fillStyle = '#4F0D0D';
+	this.context.fillText(text, this.sceenObject['tablichka'].posX+x*this.k, this.sceenObject['tablichka'].posY+y*this.k);
+	this.context.restore();
+
 }
 Papaya.prototype.menuEvent = function(event,callback){
 	var self = this;
-	var x = event.clientX;
-	var y = event.clientY;
+	var x = event.clientX - canvas.getBoundingClientRect().left;
+	var y = event.clientY - canvas.getBoundingClientRect().top;
 	var objX;
 	var objY;
 	var objYend;
 	var objXend;
 	document.body.style.cursor = '';
 	for(var i = 0; self.menuArr.length>i;i++){
-		var objX = self.sceenObject[self.menuArr[i]].posX+10;
-		var objY = self.sceenObject[self.menuArr[i]].posY;
-		var objYend = Math.abs(objY + self.sceenObject[self.menuArr[i]].height-120);
-		var objXend = Math.abs(objX + self.sceenObject[self.menuArr[i]].width-40);
-			
+	
+		objX = self.sceenObject[self.menuArr[i]].posX+self.sceenObject[self.menuArr[i]].bound.xStart;
+		objY = self.sceenObject[self.menuArr[i]].posY+self.sceenObject[self.menuArr[i]].bound.yStart;
+		objXend = Math.abs(objX + self.sceenObject[self.menuArr[i]].width+self.sceenObject[self.menuArr[i]].bound.xEnd);
+		objYend = Math.abs(objY + self.sceenObject[self.menuArr[i]].height+self.sceenObject[self.menuArr[i]].bound.yEnd);
 			if((x>=objX && x<=objXend) && (y>=objY && y<=objYend)){
 				callback(self.sceenObject[self.menuArr[i]]);
 				document.body.style.cursor = 'pointer';
+
 			}
 	}
 	
@@ -113,15 +143,87 @@ Papaya.prototype.boatAnim = function (){
 	
 
 }
-Papaya.prototype.menuAnim = function(name){
-var self = this;
+/*
+Papaya.prototype.menuAnim = function(status,name){
+	this.menuAdd("totem-about",62,208,"О БАРЕ");
+
+		var self = this;
+    this.context.font = 'bold '+14+'pt Calibri';
+		this.context.fillText('test', 100, 100);
+}
+*/
+		
+Papaya.arrow = {angle:0,xScale:0,yScale:0,xOffset:0,yOffset:0,name : 'arrow'};
+
+Papaya.prototype.arrowAnim = function(start){
+	Papaya.arrow.xScale = Math.abs(Math.sin(Papaya.arrow.angle));
+	Papaya.arrow.	yScale = Math.abs(Math.sin(Papaya.arrow.angle));
+	if(Papaya.arrow.xScale<0.7 || Papaya.arrow.yScale<0.7){
+		Papaya.arrow.xScale = 0.7;
+		Papaya.arrow.yScale = 0.7;
+	}
+
+	//xScale = 0.8;
+	//yScale = 0.8;
+	Papaya.arrow.xOffset = this.sceenObject[Papaya.arrow.name].width / -2;
+	Papaya.arrow.yOffset = this.sceenObject[Papaya.arrow.name].height / -2;
+
+	this.context.save();
+	this.context.translate(this.sceenObject[Papaya.arrow.name].posX-this.sceenObject[Papaya.arrow.name].width/2,
+												this.sceenObject[Papaya.arrow.name].posY+this.sceenObject[Papaya.arrow.name].height/2);
+	this.context.scale(Papaya.arrow.xScale, Papaya.arrow.yScale);
+	Papaya.arrow.angle += Math.PI/32*this.k;
+	
+	this.context.drawImage(
+									this.images[Papaya.arrow.name], 
+									Papaya.arrow.xOffset, 
+									Papaya.arrow.yOffset, 
+									this.sceenObject[Papaya.arrow.name].width, 
+									this.sceenObject[Papaya.arrow.name].height);
+	this.context.restore();
 
 }
-Papaya.prototype.arrowAnim = function(start){
-		//this.sceenObject['arrow'].width+=delta;
-		//this.sceenObject['arrow'].height+=delta;
+Papaya.blick = {angle:0.5,xScale:0,yScale:0,xOffset:0,yOffset:0,bi:0,name : 'blick'};
+Papaya.prototype.blickAnim = function(start){
+		Papaya.blick.bi++;
+		if(Papaya.blick.bi>200){
+			if(Papaya.blick.bi==245){
+				Papaya.blick.bi = 0;
+				 Papaya.blick.angle = 0.5;
+				 Papaya.blick.xScale = 0;
+				 Papaya.blick.yScale = 0 ;
+				 Papaya.blick.xOffset = 0;
+				 Papaya.blick.yOffset  = 0;
+			}
+		}else{
+			return;
+		}
+	Papaya.blick.xScale = Math.abs(Math.sin(Papaya.blick.angle));
+	Papaya.blick.	yScale = Math.abs(Math.sin(Papaya.blick.angle));
+	if(Papaya.blick.xScale<0.2 || Papaya.blick.yScale<0.2){
+		Papaya.blick.xScale = 0.2;
+		Papaya.blick.yScale = 0.2;
+	}
 
+	//xScale = 0.8;
+	//yScale = 0.8;
+	Papaya.blick.xOffset = this.sceenObject[Papaya.blick.name].width / -2;
+	Papaya.blick.yOffset = this.sceenObject[Papaya.blick.name].height / -2;
 
+	this.context.save();
+	this.context.translate(this.sceenObject[Papaya.blick.name].posX-this.sceenObject[Papaya.blick.name].width/2,
+												this.sceenObject[Papaya.blick.name].posY+this.sceenObject[Papaya.blick.name].height/2);
+	this.context.scale(Papaya.blick.xScale, Papaya.blick.yScale);
+	this.context.rotate(Papaya.blick.angle);
+	Papaya.blick.angle += Math.PI/64*this.k;
+	
+	this.context.drawImage(
+									this.images[Papaya.blick.name], 
+									Papaya.blick.xOffset, 
+									Papaya.blick.yOffset, 
+									this.sceenObject[Papaya.blick.name].width, 
+									this.sceenObject[Papaya.blick.name].height);
+	this.context.restore();
 
 }
 Papaya.prototype.animation = function(startTime){
@@ -129,7 +231,7 @@ Papaya.prototype.animation = function(startTime){
 	this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	
 	this.boatAnim();
-	this.arrowAnim(startTime);
+	
 	
 	this.imageDraw('bg-sceen');
 	this.imageDraw('boat');
@@ -137,7 +239,8 @@ Papaya.prototype.animation = function(startTime){
 	this.imageDraw('forest');
 	this.imageDraw('logo');
 	this.imageDraw('sunduk');
-	this.imageDraw('arrow');
+	this.arrowAnim();
+	//this.imageDraw('arrow');
 /*start totem*/
 	this.imageDraw('totem-about');
 	this.imageDraw('totem-bar-and-cuhnya');
@@ -149,21 +252,17 @@ Papaya.prototype.animation = function(startTime){
 	this.imageDraw('totem-contact');
 /*end totem*/	
 	this.imageDraw('tablichka');
+	this.imageDraw('afisha');
 	this.imageDraw('girl');
+	this.blickAnim();
 	this.imageDraw('palmy-right');
-	/*
-	this.menuAdd("totem-about",62,208,"О БАРЕ");
-	this.menuAdd("totem-bar-and-cuhnya",62,180,"БАР И");
-	this.menuAdd("totem-bar-and-cuhnya",58,200,"КУХНЯ");
-	this.menuAdd("totem-events",43,163,"МЕРО-");
-	this.menuAdd("totem-events",30,180,"ПРИЯТИЯ");
-	this.menuAdd("totem-galery",30,190,"ГАЛЕРЕЯ");	
-*/
+	this.imageDraw('palmy-left');
 	requestAnimFrame(function() {
           self.animation(startTime);
         });
 }
 Papaya.prototype.run = function(){
+
 		var self = this;
 		this.canvasSetSize();
 		self.canvas.onclick=function(event){
@@ -174,6 +273,7 @@ Papaya.prototype.run = function(){
 		
 		self.canvas.onmousemove = function(event){
 			self.menuEvent(event,function(element){
+				console.log(element);
 			});
 		};
 		
@@ -184,8 +284,23 @@ Papaya.prototype.run = function(){
 													width:157,
 													height:391,
 													posY:400,
-													posX:380,
+													posX:280,
 													weight:1,
+													text:{
+																color:'black',
+																hover:'red',
+																value:'',
+																size:14,
+																type:'bold',
+																x:62,
+																y:208,		
+													},
+													bound:{
+														xStart:20,
+														xEnd:-40,
+														yStart:0,
+														yEnd:-70,
+													}
 													});
 		self.sceenObjectAdd({
 													name:'totem-bar-and-cuhnya',
@@ -194,8 +309,14 @@ Papaya.prototype.run = function(){
 													width:147,
 													height:399,
 													posY:360,
-													posX:520,
+													posX:420,
 													weight:1,
+													bound:{
+														xStart:0,
+														xEnd:0,
+														yStart:0,
+														yEnd:0,
+													},
 													});
 		self.sceenObjectAdd({
 													name:'totem-events',
@@ -204,8 +325,14 @@ Papaya.prototype.run = function(){
 													width:147,
 													height:399,
 													posY:350,
-													posX:660,
+													posX:560,
 													weight:1,
+													bound:{
+														xStart:0,
+														xEnd:0,
+														yStart:0,
+														yEnd:0,
+													},
 													});													
 		self.sceenObjectAdd({
 													name:'totem-galery',
@@ -214,8 +341,14 @@ Papaya.prototype.run = function(){
 													width:143,
 													height:433,
 													posY:340,
-													posX:760,
+													posX:660,
 													weight:1,
+													bound:{
+														xStart:0,
+														xEnd:0,
+														yStart:0,
+														yEnd:0,
+													},
 													});
 		self.sceenObjectAdd({
 													name:'totem-reviews',
@@ -224,8 +357,14 @@ Papaya.prototype.run = function(){
 													width:151,
 													height:404,
 													posY:330,
-													posX:1362,
+													posX:1227,
 													weight:1,
+													bound:{
+														xStart:0,
+														xEnd:0,
+														yStart:0,
+														yEnd:0,
+													},
 													});		
 		self.sceenObjectAdd({
 													name:'totem-menu',
@@ -234,8 +373,14 @@ Papaya.prototype.run = function(){
 													width:143,
 													height:431,
 													posY:348,
-													posX:1491,
+													posX:1356,
 													weight:1,
+													bound:{
+														xStart:0,
+														xEnd:0,
+														yStart:0,
+														yEnd:0,
+													},
 													});	
 		self.sceenObjectAdd({
 													name:'totem-sovety',
@@ -244,8 +389,14 @@ Papaya.prototype.run = function(){
 													width:148,
 													height:407,
 													posY:350,
-													posX:1601,
+													posX:1466,
 													weight:1,
+													bound:{
+														xStart:0,
+														xEnd:0,
+														yStart:0,
+														yEnd:0,
+													},
 													});		
 		self.sceenObjectAdd({
 													name:'totem-contact',
@@ -254,8 +405,14 @@ Papaya.prototype.run = function(){
 													width:157,
 													height:390,
 													posY:387,
-													posX:1734,
+													posX:1599,
 													weight:1,
+													bound:{
+														xStart:0,
+														xEnd:0,
+														yStart:0,
+														yEnd:0,
+													},
 													});														
 		self.sceenObjectAdd({
 													name:'forest',
@@ -267,32 +424,92 @@ Papaya.prototype.run = function(){
 													weight:1,
 													});	
 		self.sceenObjectAdd({
-													name:'bungalo',
-													src:'/images/bungalo.png',
+													name:'palmy-left',
+													src:'/images/palmy-left.png',
 													width:513,
-													height:964,
+													height:818,
 													posY:0,
 													posX:0,
 													weight:1,
 													});	
 		self.sceenObjectAdd({
+													name:'afisha',
+													src:'/images/logo.png',
+													width:180,
+													height:180,
+													posY:345,
+													posX:64,
+													weight:1,
+													bound:{
+														xStart:0,
+														xEnd:0,
+														yStart:0,
+														yEnd:0,
+													},
+													url:'#afisha',
+													text:{
+														color:'black',
+														hover:'red',
+														value:'Текст какойто',
+														size:14,
+														type:'bold',
+														y:20,
+														x:20,		
+													},
+													sku:{
+														m11:1, 
+														m12:-0.115, 
+														m21:0.07, 
+														m22:1, 
+														dx:-40, 
+														dy:0
+													}
+													});	
+		self.sceenObjectAdd({
+													name:'bungalo',
+													src:'/images/bungalo.png',
+													width:370,
+													height:874,
+													posY:0,
+													posX:-20,
+													weight:1,
+													});	
+		self.sceenObjectAdd({
 													name:'logo',
 													src:'/images/logo.png',
-													width:462,
-													height:461,
-													posY:240,
-													posX:905,
+													width:412,
+													height:391,
+													posY:260,
+													posX:813,
 													weight:1,
 													});
 		self.sceenObjectAdd({
 													name:'tablichka',
+													url:'test',
 													src:'/images/tablichka.png',
 													width:320,
 													height:444,
-													posY:660,
+													posY:670,
 													posX:720,
 													weight:1,
-													});														
+													textColor:'black',
+													textHover:'red',
+													bound:{
+														xStart:0,
+														xEnd:0,
+														yStart:30,
+														yEnd:-300,
+													},
+													});	
+		self.sceenObjectAdd({
+													name:'blick',
+													src:'/images/blick.png',
+													width:56,
+													height:50,
+													posY:720,
+													posX:1718,
+													weight:1,
+													});													
 		self.sceenObjectAdd({
 													name:'girl',
 													src:'/images/girl.png',
@@ -308,7 +525,7 @@ Papaya.prototype.run = function(){
 													width:545,
 													height:702,
 													posY:0,
-													posX:1510,
+													posX:1540,
 													weight:1,
 													});
 		self.sceenObjectAdd({
@@ -325,10 +542,11 @@ Papaya.prototype.run = function(){
 													src:'/images/arrow.png',
 													width:75,
 													height:85,
-													posY:690,
-													posX:1345,
+													posY:670,
+													posX:1375,
 													weight:1,
-													});														
+													});	
+													
 		self.sceenObjectAdd({
 													name:'boat',
 													src:'/images/boat.png',
@@ -371,7 +589,5 @@ Papaya.prototype.run = function(){
 	self.loadImages(function(){
 		self.animation((new Date()).getTime()); 
 	 });
-	
-	
 };
 
