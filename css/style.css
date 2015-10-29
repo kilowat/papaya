@@ -70,21 +70,23 @@ canvas {
     left: 0;
     top: 0;
 }
-#canvas-2 {
-    left: 0;
-    position: absolute;
-    top: 0;
-		z-index:1;
-}
+
 body {
 	font: 12px/18px Arial, sans-serif;
 	width: 100%;
 }
 .wrapper {
-	width: 1000px;
+	max-width: 1000px;
+	min-width: 320px;
 	margin: 0 auto;
 }
-
+.background-top{
+	background:#aaa;
+}
+.top-section{
+	height:200px;
+	background:#ccc;
+}
 
 /* Header
 -----------------------------------------------------------------------------*/
