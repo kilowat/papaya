@@ -9,14 +9,16 @@ function Papaya(canvas,textCanvas,width,height){
 	this.fps = 20;
 	if(window.mozRequestAnimationFrame!==undefined)
 		this.fps = 80;
+				
 	this.source;
 	this.arrObjName = [];
   this.images = {};
   this.loadedImages = 0;
   this.numImages = 0;
 	this.arrowAnimI = 0;
-	this.buff = null;
+	this.buff = {name:null};
 	this.time = 0;
+	this.c = {};
 	window.requestAnimFrame = (function(callback) {
     return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
 		function(callback) {
@@ -27,8 +29,8 @@ function Papaya(canvas,textCanvas,width,height){
 Papaya.textMenuColorDefault = "black";
 Papaya.textMenuColorHover = "red";
 Papaya.prototype.canvasSetSize = function(){
-		this.canvas.width = this.sceenWidth*this.k;
-		this.canvas.height = this.sceenHeight*this.k;
+		this.canvas.width = innerWidth;
+		this.canvas.height = innerHeight-5;
 };
 Papaya.prototype.sorting = function(){
 	var self = this;
@@ -71,14 +73,32 @@ Papaya.prototype.imageDraw = function(name){
 													this.sceenObject[name].sku.dx*this.k, 
 													this.sceenObject[name].sku.dy*this.k);
 	}
+		if(this.sceenObject[name].cut!=undefined){
+			this.context.drawImage(
+									this.images[name], 
+									0, 
+									this.sceenObject[name].cut.h, 
+									this.sceenObject[name].width/this.k, 
+									this.sceenObject[name].h-this.sceenObject[name].h/2,
+									this.sceenObject[name].posX,
+									this.sceenObject[name].posY,
+									this.sceenObject[name].width, 
+									this.sceenObject[name].height/2
+									)
+		}else{
 		this.context.drawImage(
 									this.images[name], 
 									this.sceenObject[name].posX, 
 									this.sceenObject[name].posY, 
 									this.sceenObject[name].width, 
 									this.sceenObject[name].height);
+		}
 		if(this.sceenObject[name].text!==undefined){
 			for(var i =0;this.sceenObject[name].text.length>i;i++){
+			if(this.sceenObject[name].name == 'tablichka'){
+				this.context.rotate(Math.PI/-300);
+			}
+				
 				
 			this.context.font = this.sceenObject[name].text[i].type+' '+this.sceenObject[name].text[i].size*this.k+'pt Calibri';
 			this.context.fillStyle = this.sceenObject[name].text[i].color;
@@ -105,6 +125,7 @@ Papaya.prototype.sceenObjectAdd = function(obj){
 	this.sceenObject[obj.name] = obj;
 	if(obj.url!==undefined)
 		this.menuArr.push(obj.name);
+		this.c[obj.name] = obj
 	
 	
 };
@@ -127,21 +148,25 @@ Papaya.prototype.menuEvent = function(event,callback){
 	var objY;
 	var objYend;
 	var objXend;
-	
-	if(self.buff!==null&&self.sceenObject[self.buff.name].text!==undefined){
-		//console.log(self.buff.name);
-		for(var i=0;self.sceenObject[self.buff.name].text.length>i;i++){
-			self.sceenObject[self.buff.name].text[i].color = self.buff.text[i].color;
-		}
-		
-	}
-	
+	self.sceenObject['totem-about'].text[0].color = this.textMenuColorDefault;
+	self.sceenObject['totem-bar-and-cuhnya'].text[0].color = this.textMenuColorDefault;
+	self.sceenObject['totem-bar-and-cuhnya'].text[1].color = this.textMenuColorDefault;
+	self.sceenObject['totem-events'].text[0].color = this.textMenuColorDefault;
+	self.sceenObject['totem-events'].text[1].color = this.textMenuColorDefault;
+	self.sceenObject['totem-galery'].text[0].color = this.textMenuColorDefault;
+	self.sceenObject['totem-reviews'].text[0].color = this.textMenuColorDefault;
+	self.sceenObject['totem-sovety'].text[0].color = this.textMenuColorDefault;
+	self.sceenObject['totem-sovety'].text[1].color = this.textMenuColorDefault;
+	self.sceenObject['totem-menu'].text[0].color = this.textMenuColorDefault;
+	self.sceenObject['totem-contact'].text[0].color = this.textMenuColorDefault;
+	if(self.buff.name!==null&&self.sceenObject[self.buff.name].cut!==undefined)
+		self.sceenObject[self.buff.name].cut.h = self.buff.cut.h;
 	document.body.style.cursor = '';
 	for(var i = 0; self.menuArr.length>i;i++){
-		objX = self.sceenObject[self.menuArr[i]].posX+self.sceenObject[self.menuArr[i]].bound.xStart;
-		objY = self.sceenObject[self.menuArr[i]].posY+self.sceenObject[self.menuArr[i]].bound.yStart;
-		objXend = Math.abs(objX + self.sceenObject[self.menuArr[i]].width+self.sceenObject[self.menuArr[i]].bound.xEnd);
-		objYend = Math.abs(objY + self.sceenObject[self.menuArr[i]].height+self.sceenObject[self.menuArr[i]].bound.yEnd);
+		objX = self.sceenObject[self.menuArr[i]].posX+self.sceenObject[self.menuArr[i]].bound.xStart*this.k;
+		objY = self.sceenObject[self.menuArr[i]].posY+self.sceenObject[self.menuArr[i]].bound.yStart*this.k;
+		objXend = Math.abs(objX + self.sceenObject[self.menuArr[i]].width+self.sceenObject[self.menuArr[i]].bound.xEnd*this.k);
+		objYend = Math.abs(objY + self.sceenObject[self.menuArr[i]].height+self.sceenObject[self.menuArr[i]].bound.yEnd*this.k);
 			if((x>=objX && x<=objXend) && (y>=objY && y<=objYend)){
 				callback(self.sceenObject[self.menuArr[i]]);
 				document.body.style.cursor = 'pointer';
@@ -155,9 +180,7 @@ Papaya.prototype.menuEvent = function(event,callback){
 
 Papaya.prototype.boatAnim = function (dt){
 	var self = this;
-	
 
-	console.log(dt);
 
 	self.sceenObject['boat'].posX-=dt/100*this.k;
 		if(self.sceenObject['boat'].posX<0){
@@ -334,13 +357,23 @@ Papaya.prototype.animation = function(startTime){
 	//this.imageDraw('arrow');
 /*start totem*/
 	this.imageDraw('totem-about');
+	this.imageDraw('totem-about-ico');
 	this.imageDraw('totem-bar-and-cuhnya');
+	this.imageDraw('totem-bar-and-cuhnya-ico');
 	this.imageDraw('totem-galery');
+	this.imageDraw('totem-galery-ico');
 	this.imageDraw('totem-events');
+	this.imageDraw('totem-events-ico');
 	this.imageDraw('totem-reviews');
+	this.imageDraw('totem-reviews-ico');
 	this.imageDraw('totem-menu');
+	this.imageDraw('totem-menu-ico');
 	this.imageDraw('totem-sovety');
+	this.imageDraw('totem-sovety-ico');
 	this.imageDraw('totem-contact');
+	this.imageDraw('totem-contact-ico');
+	
+	this.imageDraw('bird');
 /*end totem*/	
 	this.imageDraw('tablichka');
 	//this.textDraw('tablichka-text');
@@ -359,24 +392,28 @@ Papaya.prototype.animation = function(startTime){
 Papaya.prototype.run = function(){
 		var buff = null;
 		var self = this;
-		this.canvasSetSize();
+
 		self.canvas.onclick=function(event){
+			
 			self.menuEvent(event,function(element){
 				window.location.href=element.url;
 			});
 		};
 		self.canvas.onmousemove = function(event){
+
 			self.menuEvent(event,function(element){
-				self.buff = self.clone(element);
+					self.buff = self.clone(element);
 			if(element.text!==undefined){
 				for(var i = 0;element.text.length>i;i++){
 					element.text[i].color = element.text[i].hover;
 				}
-				
+			}
+			if(element.cut!==undefined){
+				element.cut.h =element.h/2;
 			}
 			});
 		};
-		
+
 		self.sceenObjectAdd({
 													name:'totem-about',
 													src:'/images/totem-about.png',
@@ -394,14 +431,39 @@ Papaya.prototype.run = function(){
 															size:14,
 															type:'bold',
 															x:62,
-															y:208,		
+															y:200,		
 														},
 													],
 													bound:{
-														xStart:20,
-														xEnd:-40,
+														xStart:40,
+														xEnd:-52,
 														yStart:0,
-														yEnd:-70,
+														yEnd:-60,
+													}
+													});
+		self.sceenObjectAdd({
+													name:'totem-about-ico',
+													src:'/images/totem-about-ico.png',
+													url:'',
+													width:45,
+													height:115,
+													h:115,
+													posY:520,
+													posX:350,
+													weight:1,
+
+													bound:{
+														xStart:-30,
+														xEnd:60,
+														yStart:-120,
+														yEnd:210,
+													},
+													cut:{
+														h:0,
+														x:3,
+														y:3,
+														hd:3,
+														wd:3,
 													}
 													});
 		self.sceenObjectAdd({
@@ -414,12 +476,58 @@ Papaya.prototype.run = function(){
 													posX:420,
 													weight:1,
 													bound:{
-														xStart:0,
-														xEnd:0,
+														xStart:20,
+														xEnd:-30,
 														yStart:0,
-														yEnd:0,
+														yEnd:-100,
 													},
+													text:[
+														{
+															color:'black',
+															hover:'red',
+															value:'БАР',
+															size:14,
+															type:'bold',
+															x:69,
+															y:200,		
+														},
+														{
+															color:'black',
+															hover:'red',
+															value:'И КУХНЯ',
+															size:14,
+															type:'bold',
+															x:50,
+															y:180,		
+														},
+													],
 													});
+		self.sceenObjectAdd({
+													name:'totem-bar-and-cuhnya-ico',
+													src:'/images/bar-and-cuhnya-ico.png',
+													url:'',
+													width:44,
+													height:98,
+													h:98,
+													posY:470,
+													posX:483,
+													weight:1,
+
+													bound:{
+														xStart:-43,
+														xEnd:73,
+														yStart:-110,
+														yEnd:200,
+													},
+													cut:{
+														h:0,
+														x:4,
+														y:1,
+														hd:0,
+														wd:0
+													}
+													});
+
 		self.sceenObjectAdd({
 													name:'totem-events',
 													url:'/#3',
@@ -430,11 +538,56 @@ Papaya.prototype.run = function(){
 													posX:560,
 													weight:1,
 													bound:{
-														xStart:0,
-														xEnd:0,
+														xStart:20,
+														xEnd:-60,
 														yStart:0,
-														yEnd:0,
+														yEnd:-120,
 													},
+													text:[
+														{
+															color:'black',
+															hover:'red',
+															value:'МЕРО-',
+															size:14,
+															type:'bold',
+															x:40,
+															y:160,		
+														},
+														{
+															color:'black',
+															hover:'red',
+															value:'ПРИЯТИЯ',
+															size:14,
+															type:'bold',
+															x:30,
+															y:180,		
+														},
+													],
+													});	
+		self.sceenObjectAdd({
+													name:'totem-events-ico',
+													src:'/images/totem-events-ico.png',
+													url:'',
+													width:58,
+													h:97,
+													height:97,
+													posY:445,
+													posX:600,
+													weight:1,
+
+													bound:{
+														xStart:-20,
+														xEnd:30,
+														yStart:-95,
+														yEnd:180,
+													},
+													cut:{
+														h:0,
+														x:3,
+														y:2,
+														hd:0,
+														wd:0
+													}
 													});													
 		self.sceenObjectAdd({
 													name:'totem-galery',
@@ -446,12 +599,48 @@ Papaya.prototype.run = function(){
 													posX:660,
 													weight:1,
 													bound:{
-														xStart:0,
-														xEnd:0,
+														xStart:20,
+														xEnd:-40,
 														yStart:0,
-														yEnd:0,
+														yEnd:-150,
 													},
+													text:[
+														{
+															color:'black',
+															hover:'red',
+															value:'ГАЛЕРЕЯ',
+															size:14,
+															type:'bold',
+															x:40,
+															y:180,		
+														},
+													]
 													});
+		self.sceenObjectAdd({
+													name:'totem-galery-ico',
+													src:'/images/totem-galery-ico.png',
+													url:'',
+													width:59,
+													h:87,
+													height:87,
+													posY:450,
+													posX:700,
+													weight:1,
+
+													bound:{
+														xStart:-20,
+														xEnd:43,
+														yStart:-95,
+														yEnd:180,
+													},
+													cut:{
+														h:0,
+														x:3,
+														y:2,
+														hd:0,
+														wd:0
+													}
+													});	
 		self.sceenObjectAdd({
 													name:'totem-reviews',
 													url:'/#5',
@@ -462,12 +651,48 @@ Papaya.prototype.run = function(){
 													posX:1227,
 													weight:1,
 													bound:{
-														xStart:0,
-														xEnd:0,
-														yStart:0,
-														yEnd:0,
+														xStart:30,
+														xEnd:-50,
+														yStart:-10,
+														yEnd:-100,
 													},
+													text:[
+														{
+															color:'black',
+															hover:'red',
+															value:'ОТЗЫВЫ',
+															size:14,
+															type:'bold',
+															x:48,
+															y:180,		
+														},
+													]
 													});		
+		self.sceenObjectAdd({
+													name:'totem-reviews-ico',
+													src:'/images/totem-reviews-ico.png',
+													url:'',
+													width:52,
+													h:97,
+													height:97,
+													posY:440,
+													posX:1285,
+													weight:1,
+
+													bound:{
+														xStart:-20,
+														xEnd:43,
+														yStart:-120,
+														yEnd:207,
+													},
+													cut:{
+														h:0,
+														x:3,
+														y:2,
+														hd:0,
+														wd:0
+													}
+													});	
 		self.sceenObjectAdd({
 													name:'totem-menu',
 													url:'/#6',
@@ -478,11 +703,47 @@ Papaya.prototype.run = function(){
 													posX:1356,
 													weight:1,
 													bound:{
-														xStart:0,
-														xEnd:0,
-														yStart:0,
-														yEnd:0,
+														xStart:30,
+														xEnd:-50,
+														yStart:-8,
+														yEnd:-140,
 													},
+													text:[
+														{
+															color:'black',
+															hover:'red',
+															value:'МЕНЮ',
+															size:14,
+															type:'bold',
+															x:53,
+															y:184,		
+														},
+													]
+													});	
+		self.sceenObjectAdd({
+													name:'totem-menu-ico',
+													src:'/images/totem-menu-ico.png',
+													url:'',
+													width:53,
+													h:105,
+													height:105,
+													posY:460,
+													posX:1410,
+													weight:1,
+
+													bound:{
+														xStart:-25,
+														xEnd:40,
+														yStart:-120,
+														yEnd:185,
+													},
+													cut:{
+														h:0,
+														x:3,
+														y:2,
+														hd:0,
+														wd:0
+													}
 													});	
 		self.sceenObjectAdd({
 													name:'totem-sovety',
@@ -494,12 +755,58 @@ Papaya.prototype.run = function(){
 													posX:1466,
 													weight:1,
 													bound:{
-														xStart:0,
-														xEnd:0,
-														yStart:0,
-														yEnd:0,
+														xStart:30,
+														xEnd:-50,
+														yStart:-8,
+														yEnd:-120,
 													},
-													});		
+													text:[
+														{
+															color:'black',
+															hover:'red',
+															value:'ПОЛЕЗНЫЕ-',
+															size:14,
+															type:'bold',
+															x:37,
+															y:185,		
+														},
+														{
+															color:'black',
+															hover:'red',
+															value:'СОВЕТЫ',
+															size:14,
+															type:'bold',
+															x:53,
+															y:200,		
+														},
+													]
+													
+													});	
+		self.sceenObjectAdd({
+													name:'totem-sovety-ico',
+													src:'/images/totem-sovety-ico.png',
+													url:'',
+													width:56,
+													h:99,
+													height:99,
+													posY:470,
+													posX:1520,
+													weight:1,
+
+													bound:{
+														xStart:-25,
+														xEnd:40,
+														yStart:-130,
+														yEnd:190,
+													},
+													cut:{
+														h:0,
+														x:3,
+														y:2,
+														hd:0,
+														wd:0
+													}
+													});														
 		self.sceenObjectAdd({
 													name:'totem-contact',
 													url:'/#7',
@@ -510,18 +817,63 @@ Papaya.prototype.run = function(){
 													posX:1599,
 													weight:1,
 													bound:{
-														xStart:0,
-														xEnd:0,
-														yStart:0,
-														yEnd:0,
+														xStart:30,
+														xEnd:-50,
+														yStart:-8,
+														yEnd:-120,
 													},
+													text:[
+														{
+															color:'black',
+															hover:'red',
+															value:'КОНТАКТЫ',
+															size:14,
+															type:'bold',
+															x:47,
+															y:195,		
+														}
+													]
+													});	
+		self.sceenObjectAdd({
+													name:'totem-contact-ico',
+													src:'/images/totem-contact-ico.png',
+													url:'',
+													width:37,
+													h:101,
+													height:101,
+													posY:515,
+													posX:1670,
+													weight:1,
+
+													bound:{
+														xStart:-41,
+														xEnd:70,
+														yStart:-134,
+														yEnd:164,
+													},
+													cut:{
+														h:0,
+														x:3,
+														y:2,
+														hd:0,
+														wd:0
+													}
+													});	
+		self.sceenObjectAdd({
+													name:'bird',
+													src:'/images/bird.png',
+													width:228,
+													height:320,
+													posY:740,
+													posX:300,
+													weight:1,
 													});														
 		self.sceenObjectAdd({
 													name:'forest',
 													src:'/images/forest.png',
 													width:2048,
 													height:460,
-													posY:750,
+													posY:740,
 													posX:0,
 													weight:1,
 													});	
@@ -609,8 +961,17 @@ Papaya.prototype.run = function(){
 															value:'Работаем с 10:00 до 3:00',
 															size:14,
 															type:'normal',
-															y:80,
-															x:100,		
+															y:108,
+															x:90,		
+														},
+														{
+															color:'#800000',
+															hover:'#800000',
+															value:'+7(909) 123-45-67-8',
+															size:18,
+															type:'bold',
+															y:85,
+															x:90,		
 														}
 													],
 													});	
@@ -708,7 +1069,7 @@ Papaya.prototype.run = function(){
 	
 	
 	
-
+		this.canvasSetSize();
 	self.loadImages(function(){
 		self.animation((new Date()).getTime()); 
 	 });
