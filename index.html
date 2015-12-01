@@ -14,15 +14,14 @@
 <body>
 	<main class="content">
 		<!--start component top-block-on-main-page-->
-			<canvas id="canvas">
+			<!--<canvas id="canvas">
 			</canvas>
+      -->
 		<script>
-		var papaya = new Papaya('canvas','canvas-2',2048,1200);	
-		$(document).ready(function(){	
-			papaya.run();	
-		});
-		
-</script>
+		$(document).ready(function(){
+      $('.autosize').height(innerHeight);
+    });
+    </script>
 		<!--end component top-block-on-main-page-->
     <div class="anons-wrapper autosize">
       <!--start component menu-->
