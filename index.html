@@ -21,13 +21,29 @@
 		$(document).ready(function(){
       $('.autosize').height(innerHeight);
     });
+    window.onresize = function(){
+      $('.autosize').height(innerHeight);
+    }
     </script>
 		<!--end component top-block-on-main-page-->
     <div class="anons-wrapper autosize">
       <!--start component menu-->
-      <ul class="main-menu">
-        <li><a href="#" title="#">Главная</a></li>
-      </ul>
+      <div class="wrapper menu-wrapper">
+        <div class="main-menu">
+          <ul class="main-menu-left">
+            <li><a href="#" title="#">О баре</a></li>
+            <li><a href="#" title="#">Бар и кухня</a></li>
+            <li><a href="#" title="#">Меро-приятия</a></li>
+            <li><a href="#" title="#">Галерея</a></li>
+          </ul>
+          <ul class="main-menu-right">
+            <li><a href="#" title="#">Отзывы</a></li>
+            <li><a href="#" title="#">Банкетное меню</a></li>
+            <li><a href="#" title="#">Полезные советы</a></li>
+            <li><a href="#" title="#">Контакты</a></li>
+            </ul>
+        </div>
+      </div>
       <!--end component menu-->
 
       <!--start component anons on main page-->

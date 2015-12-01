@@ -100,12 +100,46 @@ body {
 .content {
 	
 }
-.anons-wrapper {
-	background-image: url("/images/anons-1280×1024-bg.jpg");
-    background-position: center bottom;
+/*start component anons on main page*/
+	.anons-wrapper {
+		background-image: url("/images/anons-bg.jpg");
+	    background-position: center bottom;
+	    background-repeat: no-repeat;
+	    background-size: cover;
+	}
+
+/*end component anons on main page*/
+
+/*start component main-menu*/
+.main-menu {
+    display: inline-block;
+    height: 238px;
+    width: 100%;
+   	background-image: url("/images/main-menu-bg.png");
+    background-position: center center;
     background-repeat: no-repeat;
-    
 }
+.main-menu li a {
+    color: #fff;
+    font-size: 1.1em;
+    text-transform: uppercase;
+}
+.menu-wrapper{
+	padding-top:20px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.main-menu li{
+	display: inline-block;
+	margin-top: 140px;
+}
+.main-menu-left{
+	float: left;
+}
+.main-menu-right{
+	float: right;
+}
+/*end component main-menu*/
 
 
 /* Footer
