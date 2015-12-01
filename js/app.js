@@ -4,7 +4,10 @@ function Papaya(canvas,textCanvas,width,height){
 	this.sceenObject = {};
 	this.sceenWidth = width;
 	this.sceenHeight = height;
-	this.k = innerWidth/width;
+	var w = innerWidth;
+	//w = (innerWidth<1000)?1000:innerWidth
+
+	this.k = w/width;
 	this.menuArr = [];
 	this.fps = 20;
 	if(window.mozRequestAnimationFrame!==undefined)
@@ -12,9 +15,9 @@ function Papaya(canvas,textCanvas,width,height){
 				
 	this.source;
 	this.arrObjName = [];
-  this.images = {};
-  this.loadedImages = 0;
-  this.numImages = 0;
+  	this.images = {};
+  	this.loadedImages = 0;
+  	this.numImages = 0;
 	this.arrowAnimI = 0;
 	this.buff = {name:null};
 	this.time = 0;
@@ -31,6 +34,7 @@ Papaya.textMenuColorHover = "red";
 Papaya.prototype.canvasSetSize = function(){
 		this.canvas.width = innerWidth;
 		this.canvas.height = innerHeight-5;
+		$('.autosize').height(innerHeight);
 };
 Papaya.prototype.sorting = function(){
 	var self = this;
@@ -386,7 +390,7 @@ Papaya.prototype.animation = function(startTime){
 	time = now;
 	requestAnimFrame(function() {
 					 self.animation(startTime);     
-        });
+       });
 
 }
 Papaya.prototype.run = function(){
@@ -1068,8 +1072,8 @@ Papaya.prototype.run = function(){
 	
 	
 	
-	
 		this.canvasSetSize();
+
 	self.loadImages(function(){
 		self.animation((new Date()).getTime()); 
 	 });

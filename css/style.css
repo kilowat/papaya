@@ -98,9 +98,16 @@ body {
 /* Middle
 -----------------------------------------------------------------------------*/
 .content {
+	
 }
-
-
+.anons-wrapper {
+    background-image: url("/images/anons-bg.jpg");
+}
+.anons-wrapper {
+    background-image: url("/images/anons-bg.jpg");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
 
 
 /* Footer
