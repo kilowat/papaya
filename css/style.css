@@ -138,7 +138,7 @@ body {
     font-family: Russo One;
 }
 .main-menu li a:hover {
-
+	color:#e0b317;
 }
 .menu-wrapper{
 	padding-top:20px;
@@ -147,7 +147,7 @@ body {
 }
 .main-menu li{
 	display: inline-block;
-	margin-top: 70px;
+	margin-top: 45px;
 	text-align: center;
 }
 .main-menu-left{
@@ -191,18 +191,18 @@ body {
     width: 53px;
 }
 .main-menu-left li {
-    padding-right: 35px;
+    padding-right: 15px;
 }
-
-.main-menu .main-menu-left li:nth-child(3) {
-    width: 63px;
-    position: relative;
-    top: 16px;
+.main-menu-left li:first-child p {
+    background-image: url("/images/main-menu-o-bare-ico.png");
+    height: 77px;
+    width: 64px;
+		background-repeat: no-repeat;
 }
 .main-menu .main-menu-left li:nth-child(2) {
     position: relative;
     top: 16px;
-    width: 46px;
+    width: 66px;
 }
 .main-menu-right li:nth-child(2) {
     width: 122px;
@@ -214,14 +214,89 @@ body {
     position: relative;
     top: 16px;
 }
+.main-menu-left li:nth-child(2) p {
+    background-image: url("/images/main-menu-bar-and-kuhnya-ico.png");
+    height: 74px;
+    width: 68px;
+		background-repeat: no-repeat;
+}
 
-.main-menu-left li:first-child p {
-    background: rgba(0, 0, 0, 0) url("/images/main-menu-o-bare-ico.png") repeat scroll 0 0;
-    height: 77px;
-    width: 64px;
+.main-menu .main-menu-left li:nth-child(3) {
+    width: 76px;
+    position: relative;
+    top: 16px;
+}
+.main-menu-left li:nth-child(3) p {
+    background-image: url("/images/main-menu-merop-ico.png");
+    height: 68px;
+    width: 68px;
+		background-repeat: no-repeat;
+}
+.main-menu-left li:nth-child(4) p {
+    background-image: url("/images/main-menu-gallery-ico.png");
+    height: 64px;
+    width: 80px;
+		background-repeat: no-repeat;
+}
+.main-menu li a:hover p{
+	background-position: 0% 100%;
+}
+
+.main-menu-right  li {
+    margin-top: 40px;
+}
+.main-menu-right  li a{
+	text-align:center;
+}
+.main-menu-right li:first-child p {
+    background-image: url("/images/main-menu-reviews-ico.png");
+    height: 68px;
+    width: 73px;
+		background-repeat: no-repeat;
+}
+.main-menu-right li:nth-child(2) p {
+    background-image: url("/images/main-menu-banketnoe-ico.png");
+    height: 72px;
+    width: 74px;
+		display: inline-block;
+		background-repeat: no-repeat;
+}
+.main-menu-right li:nth-child(3) p {
+    background-image: url("/images/main-menu-articles-ico.png");
+    height: 70px;
+    width: 77px;
+		display: inline-block;
+		background-repeat: no-repeat;
+}
+.main-menu-right li:nth-child(4) p {
+    background-image: url("/images/main-menu-contact-ico.png");
+    height: 71px;
+    width: 58px;
+		display: block;
+		background-repeat: no-repeat;
+}
+.anons-list-head{
+	font-size:2.5em;
+	font-family: russo one;
+	text-align: center;
+	margin-top:33px;
 }
 /*end component main-menu*/
 
+
+/*start component anons-slider*/
+.anons-slider{
+
+}
+.anons-wrapper.autosize{
+	position:relative;
+}
+
+.order-inputs-text {
+    bottom: 31%;
+    position: absolute;
+}
+/*end component anons-slider*/
 
 /* Footer
 -----------------------------------------------------------------------------*/
