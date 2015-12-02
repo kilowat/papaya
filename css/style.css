@@ -20,6 +20,16 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
+@font-face {
+    font-family: 'Russo One';
+    src: local('/fonts/Russo One'), 
+    local('/fonts/RussoOne'), 
+    url('/fonts/russoone.woff2') format('woff2'), 
+    url('/fonts/russoone.woff') format('woff'), 
+    url('/fonts/russoone.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
@@ -118,11 +128,17 @@ body {
    	background-image: url("/images/main-menu-bg.png");
     background-position: center center;
     background-repeat: no-repeat;
+    position: relative;
 }
 .main-menu li a {
-    color: #fff;
+    color: #f9e6b8;
     font-size: 1.1em;
     text-transform: uppercase;
+    text-decoration: none;
+    font-family: Russo One;
+}
+.main-menu li a:hover {
+
 }
 .menu-wrapper{
 	padding-top:20px;
@@ -131,13 +147,78 @@ body {
 }
 .main-menu li{
 	display: inline-block;
-	margin-top: 140px;
+	margin-top: 70px;
+	text-align: center;
 }
 .main-menu-left{
 	float: left;
 }
 .main-menu-right{
 	float: right;
+}
+
+.main-menu::before {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("/images/main-menu-left-decor.png");
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    bottom: 37px;
+    content: "";
+    display: block;
+    height: 172px;
+    left: -53px;
+    position: absolute;
+    width: 53px;
+}
+
+.main-menu::after {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("/images/main-menu-right-decor.png");
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    bottom: 37px;
+    content: "";
+    display: block;
+    height: 172px;
+    right: -53px;
+    position: absolute;
+    width: 53px;
+}
+.main-menu-left li {
+    padding-right: 35px;
+}
+
+.main-menu .main-menu-left li:nth-child(3) {
+    width: 63px;
+    position: relative;
+    top: 16px;
+}
+.main-menu .main-menu-left li:nth-child(2) {
+    position: relative;
+    top: 16px;
+    width: 46px;
+}
+.main-menu-right li:nth-child(2) {
+    width: 122px;
+    position: relative;
+    top: 16px;
+}
+.main-menu-right li:nth-child(3) {
+    width: 122px;
+    position: relative;
+    top: 16px;
+}
+
+.main-menu-left li:first-child p {
+    background: rgba(0, 0, 0, 0) url("/images/main-menu-o-bare-ico.png") repeat scroll 0 0;
+    height: 77px;
+    width: 64px;
 }
 /*end component main-menu*/
 
