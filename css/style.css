@@ -296,6 +296,54 @@ body {
     bottom: 31%;
     position: absolute;
 }
+.order-send-btn{
+    position: absolute;
+	background-color: #cc371a;
+	box-shadow: 0px 5px 0px 0px #890404;
+	border-radius: 5px;
+	padding: 10px 20px;
+	text-decoration: none;
+	color: #fff;
+	display: inline-block;
+	border:none;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+.order-send-btn:hover{
+	background-color: #aa1500;
+}
+#carousel {
+	width:960px;
+	height:300px;
+	position:relative;
+	clear:both;
+	overflow:hidden;
+	background:none;
+}
+#carousel img {
+	visibility:hidden; /* hide images until carousel can handle them */
+	cursor:pointer; /* otherwise it's not as obvious items can be clicked */
+}
+
+#callback-output {
+	height:250px;
+	overflow:scroll;
+}
+@media (min-width: 1000px){
+	.order-inputs-text {
+	    bottom: 15%;
+	    position: absolute;
+	}
+	.order-inputs-text input[type="text"]{
+		width: 200px;
+		height: 30px;
+		border:1px solid #951a12;
+	}
+	.order-send-btn{
+		bottom: 7%;
+	    margin-left: 150px;
+	}
+}
 /*end component anons-slider*/
 
 /* Footer
