@@ -1,3 +1,30 @@
+var _app = function(){
+	return {
+		autosize:function(){
+			if(innerWidth>=1000)
+	 	 		$('.autosize').height(innerHeight);
+	 		else
+	 			$('.autosize').css("height","auto");		
+		},
+		orderTabAlignCenter:function(){
+			var elem = $('.add-order-table');
+			var pos = innerWidth/2-(elem.width()/2);
+			elem.css('left',pos+'px');
+		}
+	}
+}
+$(document).ready(function(){
+	_app().autosize();
+	_app().orderTabAlignCenter();
+});
+window.onresize = function(){
+	_app.autosize();
+	_app().orderTabAlignCenter();
+}
+
+
+
+
 function Papaya(canvas,textCanvas,width,height){
 	this.canvas = document.getElementById(canvas);
 	this.context = this.canvas.getContext('2d');

@@ -293,9 +293,15 @@ body {
 }
 
 .order-inputs-text {
-    bottom: 31%;
-    position: absolute;
+	bottom: 15%;
+	position: absolute;
 }
+.order-inputs-text input[type="text"]{
+	width: 200px;
+	height: 30px;
+	border:1px solid #951a12;
+}
+
 .order-send-btn{
     position: absolute;
 	background-color: #cc371a;
@@ -308,42 +314,96 @@ body {
 	border:none;
 	text-transform: uppercase;
 	cursor: pointer;
+	bottom: 7%;
+	margin-left: 150px;
 }
 .order-send-btn:hover{
 	background-color: #aa1500;
 }
-#carousel {
-	width:960px;
-	height:300px;
-	position:relative;
-	clear:both;
-	overflow:hidden;
-	background:none;
+.slider-ananos{
+	height: 400px;
 }
-#carousel img {
-	visibility:hidden; /* hide images until carousel can handle them */
-	cursor:pointer; /* otherwise it's not as obvious items can be clicked */
+.coverflow .cover{
+	cursor: pointer;
 }
-
-#callback-output {
-	height:250px;
-	overflow:scroll;
+.sl-paginate .current{
+	color: red;
 }
-@media (min-width: 1000px){
+@media (min-width: 1100px){
 	.order-inputs-text {
-	    bottom: 15%;
-	    position: absolute;
+
 	}
 	.order-inputs-text input[type="text"]{
-		width: 200px;
-		height: 30px;
-		border:1px solid #951a12;
+
 	}
 	.order-send-btn{
-		bottom: 7%;
-	    margin-left: 150px;
+
 	}
 }
+@media (min-width: 1000px) and (max-width: 1100px){
+	.main-menu::after {
+		display: none;
+	}
+	.main-menu::before {
+		display: none;
+	}	
+	.main-menu{
+		background-size: contain;
+	}
+
+	.main-menu-left {
+	    margin-left: 45px;
+	}
+	.main-menu-left li{
+		padding-right: 5px;
+	}
+	.main-menu-right li{
+		padding-right: 5px;
+	}
+
+	.main-menu-right li:nth-child(3) {
+	    width: 85px;
+	}
+
+	.main-menu-right {
+	    margin-right: 24px;
+	}
+	.main-menu li a{
+		font-size: 0.9em;
+	}
+	.main-menu-right li:nth-child(2) {
+	    position: relative;
+	    top: 16px;
+	    width: 105px;
+	}
+	.order-inputs-text {
+	    bottom: 15%;
+	    margin-left: 20px;
+	    position: absolute;
+	}
+}
+@media (max-width: 1000px){
+	.main-menu{
+		display: none;
+	}
+	.order-inputs-text{
+		position: relative;
+	}
+	.add-order-table{
+		text-align: center;
+	}
+	.order-send-btn{
+		margin-left: 0px;
+		margin-top: 10px;
+		position: relative;
+	}
+	.add-order-table{
+		position: absolute;
+		bottom: 20px;
+	}
+
+}
+
 /*end component anons-slider*/
 
 /* Footer
