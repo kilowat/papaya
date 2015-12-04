@@ -1,10 +1,8 @@
 var _app = function(){
 	return {
 		autosize:function(){
-			if(innerWidth>=1000)
-	 	 		$('.autosize').height(innerHeight);
-	 		else
-	 			$('.autosize').css("height","auto");		
+	 	 	$('.autosize').height(innerHeight);
+	
 		},
 		orderTabAlignCenter:function(){
 			var elem = $('.add-order-table');
@@ -18,7 +16,7 @@ $(document).ready(function(){
 	_app().orderTabAlignCenter();
 });
 window.onresize = function(){
-	_app.autosize();
+	_app().autosize();
 	_app().orderTabAlignCenter();
 }
 

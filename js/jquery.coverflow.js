@@ -142,13 +142,13 @@
 			
 			/****/
 			$('.sl-prev').click(function(){
-				that._setIndex(that.options.index + 1, true);
+				that._setIndex(that.options.index - 1, true);
 				$('.sl-page').removeClass("current");
 				$($('.sl-page')[that.options.index]).addClass("current");
 
 			});
 			$('.sl-next').click(function(){
-				that._setIndex(that.options.index - 1, true);
+				that._setIndex(that.options.index + 1, true);
 				$('.sl-page').removeClass("current");
 				$($('.sl-page')[that.options.index]).addClass("current");
 			});
