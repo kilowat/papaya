@@ -36,6 +36,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	position:relative;
 }
 ol, ul {
 	list-style: none;
@@ -428,6 +429,18 @@ body {
 	font-weight:bold;
 	padding-bottom:10px;
 }
+
+.anons-btn {
+    background-image:url(/images/anons-btn.png);
+    bottom: 20px;
+    display: inline-block;
+    height: 134px;
+    position: absolute;
+    width: 134px;
+}
+.anons-btn:hover{
+	background-position:0 100%;
+}
 @media (min-width: 1920px){
 	.order-inputs-text {
     bottom: 19%;
@@ -469,8 +482,7 @@ body {
 		position: relative;
 	}
 	.add-order-table{
-		position: absolute;
-		bottom: 20px;
+		margin-top:10px;
 	}
 	.anons-list-head{
 		font-size:1.2em;
@@ -499,9 +511,227 @@ body {
 
 /*end component anons-slider*/
 
+/*start component events-list*/
+.events-wrapper{
+	background-image:url(/images/events-list-bg.jpg);
+	background-position: center center;
+	background-repeat:no-repeat;
+	background-size:cover;
+	
+}
+.events-list h2{
+	text-align:center;
+}
+
+.events-list h2 {
+    font-family: Russo One;
+    font-size: 2.5em;
+    font-weight: bold;
+    padding-top: 20%;
+    text-align: center;
+}
+.events{
+	text-align:center;
+	margin-top:140px;
+}
+.events-list{
+	position:relative;
+	text-align:center;
+}
+.events-wrapper .events-item {
+    float:left;
+    margin-left: 3px;
+    margin-right: 3px;
+		width: 19%;
+		border-right:3px solid #745326;
+		border-top:3px solid #745326;
+		background-color:#000;
+		text-align:center;
+}
+.event-list-date {
+    color: #ffe07d;
+    font-family: Russo One;
+    font-size: 1.1em;
+}
+.events::after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+.events-name {
+    color: #fff;
+    font-family: RussoOne;
+    font-size: 1.57em;
+    font-weight: bold;
+    padding-bottom: 10px;
+		display:block;
+		text-decoration:none;
+}
+
+.events-text {
+    background-color:#000;
+    padding-top: 10px;
+    position: relative;
+}
+.events-item img {
+    width: 100%;
+}
+.events-wrapper{
+	position:relative;
+}
+.events-btn{
+	background-color: #cc371a;
+	box-shadow: 0px 5px 0px 0px #890404;
+	border-radius: 5px;
+	padding: 20px 40px;
+	text-decoration: none;
+	color: #fff;
+	display: inline-block;
+	border:none;
+	text-transform: uppercase;
+	cursor: pointer;
+	bottom: 7%;
+	left:0px;
+	margin-top:20px;
+	font-size:1.6em;
+	font-weight:bold;
+}
+.events-btn:hover{
+	background-color: #aa1500;
+}
+/*end component events-list*/
+
+/*start component last photo*/
+.last-photo-wrapper{
+	position:relative;
+	background-image:url(/images/last-photo-bg.jpg);
+	background-position:center center;
+	background-size:cover;
+	background-repeat:no-repeat;
+	text-align:center;
+}
+.last-photo h2{
+		font-family: Russo One;
+    font-size: 2.5em;
+    font-weight: bold;
+    padding-top: 20%;
+    text-align: center;
+		padding-bottom:20px;
+}
+.last-photo-list{
+	background-color:#f5e090;
+	padding-top:20px;
+	padding-bottom:20px;
+}
+/*end component last photo*/
+
+/*start video section on main page*/
+.video-main-page h2{
+		font-family: Russo One;
+    font-size: 2.5em;
+    font-weight: bold;
+    padding-top: 20%;
+    text-align: center;
+		padding-bottom:20px;
+}
+.video-inc iframe{
+	border:5px solid #f5e090;
+}
+.video-main-page-wrapper{
+	background-image:url(/images/video-bg.jpg);
+	background-position:center center;
+	background-size:cover;
+	background-repeat:no-repeat;
+	text-align:center;
+	position:relative;
+}
+/*end video section on main page*/
+
+/*start about include area*/
+.about-wrapper{
+	background-image:url(/images/about-bg.jpg);
+}
+
+.about-left {
+    float: left;
+    width: 25%;
+		margin-top: 70px;
+}
+
+.about-right {
+    float: left;
+    width: 66%;
+		background-image: url("/images/anons-slider-bg.png");
+		color:#fff;
+		padding:40px;
+		margin-top: 70px;
+}
+.about {
+
+}
+.about:after{
+	display:black;
+	content:"";
+	clear:both;
+}
+.about-left img {
+    display: block;
+    margin-bottom: 19px;
+}
+/*end about include area*/
+
+/*start bottom menu*/
+.bottom-menu{
+	margin-bottom:20px;
+}
+.bottom-menu li {
+    display: inline-block;
+		margin-left:20px;
+}
+.bottom-menu li:first-child{
+	margin-left:0px;
+}
+.bottom-menu li a {
+    color: #fff;
+    font-family: Russo One;
+    font-size: 1.2em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+/*end bottom menu*/
+.adres-info{
+	font-size:1.2em;
+}
+.footer-content .footer-col {
+    display: inline-block;
+		color:#fff;
+		width:24.5%;
+}
+.social-ico li a{
+	width:50px;
+	height:50px;
+	border-radius:100%;
+	background-image:url(/images/soc-bg.png);
+	display:inline-block;
+}
+.social-ico li a:hover{
+	background-position:0 100%;
+}
+.social-ico li{
+	margin-left:2px;
+	margin-right:2px;
+	display:inline-block;
+	position:relative;
+}
 /* Footer
 -----------------------------------------------------------------------------*/
+/*only main page*/
 .footer {
-	height: 100px;
-
+	padding-top:15px;
+	position:absolute;
+	bottom:0px;
+	height:115px;
+	width:100%;
+	background-image: url("/images/anons-slider-bg.png");
 }

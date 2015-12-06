@@ -1,13 +1,22 @@
 var _app = function(){
 	return {
 		autosize:function(){
-	 	 	$('.autosize').height(innerHeight);
+			var h;
+			if(innerHeight>=800)
+				h = innerHeight
+			else
+				h = 800
+				$('.autosize').height(h);
 	
 		},
 		orderTabAlignCenter:function(){
 			var elem = $('.add-order-table');
 			var pos = innerWidth/2-(elem.width()/2);
 			elem.css('left',pos+'px');
+			
+			$('.anons-btn').css('left',innerWidth/2-$('.anons-btn').width()/2+'px');
+			$('.events-btn').css('left',innerWidth/2-$('.events-btn').width()/2+'px');
+			
 		}
 	}
 }
