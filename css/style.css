@@ -530,16 +530,18 @@ body {
     padding-top: 20%;
     text-align: center;
 }
-.events{
-	text-align:center;
-	margin-top:140px;
+.events {
+    display: inline-block;
+    margin-top: 140px;
+    text-align: center;
+    width: 100%;
 }
 .events-list{
 	position:relative;
 	text-align:center;
 }
 .events-wrapper .events-item {
-    float:left;
+    display: inline-block;
     margin-left: 3px;
     margin-right: 3px;
 		width: 19%;
@@ -662,10 +664,18 @@ body {
 .about-right {
     float: left;
     width: 66%;
-		background-image: url("/images/anons-slider-bg.png");
-		color:#fff;
-		padding:40px;
-		margin-top: 70px;
+	background-image: url("/images/anons-slider-bg.png");
+	color:#fff;
+	padding: 0 40px 40px;
+	margin-top: 70px;
+}
+
+.about-right > h2 {
+    color: #e0b317;
+    font-family: Russo One;
+    font-size: 2em;
+    margin-bottom: 25px;
+    margin-top: 40px;
 }
 .about {
 
@@ -715,8 +725,29 @@ body {
 	background-image:url(/images/soc-bg.png);
 	display:inline-block;
 }
+.social-ico .vk-ico{
+	background-image: url(/images/vk-ico.png), url(/images/soc-bg.png);
+	background-repeat: no-repeat, repeat;
+	background-position: center center,0 0;
+}
+.social-ico .inst-ico{
+	background-image: url(/images/inst-ico.png), url(/images/soc-bg.png);
+	background-repeat: no-repeat, repeat;
+	background-position: center center,0 0;
+}
+.social-ico .fb-ico{
+	background-image: url(/images/fb-ico.png), url(/images/soc-bg.png);
+	background-repeat: no-repeat, repeat;
+	background-position: center center,0 0;
+}
+.social-ico .gplus-ico{
+	background-image: url(/images/g-plus-ico.png), url(/images/soc-bg.png);
+	background-repeat: no-repeat, repeat;
+	background-position: center center,0 0;
+}
+
 .social-ico li a:hover{
-	background-position:0 100%;
+	background-position:center center,0 100%;
 }
 .social-ico li{
 	margin-left:2px;
@@ -731,7 +762,27 @@ body {
 	padding-top:15px;
 	position:absolute;
 	bottom:0px;
-	height:115px;
+	min-height:115px;
 	width:100%;
 	background-image: url("/images/anons-slider-bg.png");
+}
+@media (max-width: 1000px){
+	.about-left{
+		float: none;
+		width: 100%;
+		text-align: center;
+		padding-top: 20px;
+
+	}
+	.about-right{
+		float: none;
+		width: 100%;
+	}
+	.about-left img{
+		display: inline-block;
+	}
+	.about{
+		padding-top: 20px;
+	}
+
 }

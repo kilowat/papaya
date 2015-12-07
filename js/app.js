@@ -6,7 +6,9 @@ var _app = function(){
 				h = innerHeight
 			else
 				h = 800
+
 				$('.autosize').height(h);
+
 	
 		},
 		orderTabAlignCenter:function(){
@@ -16,7 +18,8 @@ var _app = function(){
 			
 			$('.anons-btn').css('left',innerWidth/2-$('.anons-btn').width()/2+'px');
 			$('.events-btn').css('left',innerWidth/2-$('.events-btn').width()/2+'px');
-			
+				
+		
 		}
 	}
 }
