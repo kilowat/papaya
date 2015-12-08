@@ -2,13 +2,14 @@ var _app = function(){
 	return {
 		autosize:function(){
 			var h;
-			if(innerHeight>=800)
+			if(innerHeight>=800 )
 				h = innerHeight
 			else
 				h = 800
 
 				$('.autosize').height(h);
-
+				if(innerWidth<=960)
+				$('.about').css('height',$('.about-left').height()+$('.footer').height()+$('.about-right').height()+"px");
 	
 		},
 		orderTabAlignCenter:function(){
