@@ -114,7 +114,7 @@ body {
 /*top block*/
 .top-block-anim {
 	background-image:url(/images/anim/top-anim-bg.jpg);
-	background-size: contain;
+	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: bottom center;
 }
