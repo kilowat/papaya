@@ -113,10 +113,10 @@ body {
 }
 /*top block*/
 .top-block-anim {
-	background-image:url(/images/anim/top-anim-bg.jpg);
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: bottom center;
+	background-image:url(/images/anim/palmi-l.png),url(/images/anim/boat.png),url(/images/anim/top-anim-bg.jpg);
+	background-size: auto, auto, cover;
+	background-repeat: no-repeat, no-repeat, no-repeat;
+	background-position: left center ,center 200px, bottom center;
 }
 /*end tob block*/
 
