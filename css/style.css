@@ -111,12 +111,38 @@ body {
 .content {
 	
 }
+/*only main page*/
+.top-block-anim, .anons-wrapper, .events-wrapper, .last-photo-wrapper, .video-main-page-wrapper, .about-wrapper{
+    border-bottom: 3px solid #df3;
+}
 /*top block*/
 .top-block-anim {
-	background-image:url(/images/anim/palmi-l.png),url(/images/anim/boat.png),url(/images/anim/top-anim-bg.jpg);
-	background-size: auto, auto, cover;
-	background-repeat: no-repeat, no-repeat, no-repeat;
-	background-position: left center ,center 200px, bottom center;
+	background-image:url(/images/anim/palmi-l.png),url(/images/anim/palmi-r.png),url(/images/anim/boat.png),url(/images/anim/top-anim-bg.jpg);
+	background-size: cover,cover, auto, cover;
+	background-repeat: no-repeat, no-repeat, no-repeat,no-repeat;
+	background-position: left top , right top,center 100px, bottom center;
+	position: relative;
+}
+.top-block-anim .wrapper{
+	position: relative;
+}
+#anim-bg{
+	max-width: 1500px;
+	margin: auto;
+}
+.anim-block-menu > li {
+	position: absolute;
+}
+.anim-block-menu > li:first-child {
+    top: 44%;
+}
+@media(max-width: 1500px){
+	.top-block-anim {
+		background-image:url(/images/anim/boat.png),url(/images/anim/top-anim-bg.jpg);
+		background-size:  auto, cover;
+		background-repeat:  no-repeat,no-repeat;
+		background-position:center 100px, bottom center;
+	}
 }
 /*end tob block*/
 

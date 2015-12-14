@@ -19,6 +19,26 @@
 		<!--start component top-block-on-main-page-->
       <div class="top-block-anim autosize" id="anim-bg">
         <div class="wrapper autosize">
+          <ul class="anim-block-menu">
+            <li>
+              <a href="" title="Главная">Главная</a>
+            </li>
+            <li>
+              <a href="" title="">О баре</a>
+            </li>
+            <li>
+              <a href="" title="">Бар и кухня</a>
+            </li>
+            <li>
+              <a href="" title="">Мероприятия</a>
+            </li>
+            <li>
+              <a href="" title="">Галерея</a>
+            </li>
+            <li>
+              <a href="" title="">Отзывы о заведении</a>
+            </li>
+          </ul>
         </div>
       </div>
       <script>
@@ -44,9 +64,10 @@
 
               if(x+boatW<0)
                 x = canvas.width;
-
-            $('#anim-bg').css('background-position', 'left center,'+x+'px 200px, bottom center')
-
+            if(innerWidth>1500)
+              $('#anim-bg').css('background-position', 'left center, right center,'+x+'px 100px, bottom center');
+            if(innerWidth<=1500)
+              $('#anim-bg').css('background-position', x+'px 100px, bottom center');       
           }
           step();
 
